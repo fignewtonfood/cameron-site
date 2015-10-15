@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Site Slogan feature.
+ */
+
+include_once 'site_slogan.features.inc';
