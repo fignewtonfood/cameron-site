@@ -1,0 +1,58 @@
+<?php
+
+function groceries_menu()
+{
+    $items = array();
+    $items['groceries'] = array(
+        'title' => "Groceries",
+        'page callback' => 'groceries_display',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+}
+
+function groceries_display()
+{
+    $all_groceries[] = array(
+        'type' => 'eggs',
+        'price each' => 1.99,
+        'quantity' => 2,
+    );
+    $all_groceries[] = array(
+        'type' => 'bacon',
+        'price each' => 3.99,
+        'quantity' => 3,
+    );
+    $all_groceries[] = array(
+        'type' => 'bread',
+        'price each' => 2.99,
+        'quantity' => 1,
+    );
+
+    $output = "";
+    $total = 0;
+
+    foreach ($all_groceries as $grocery_list_item) {
+        $type = $grocery_list_item['type'];
+        $price = $grocery_list_item['price each'];
+        $quantity = $grocery_list_item['quantity'];
+        $subtotal = $price * $quantity;
+        $string = '
+            <ul>
+                <li>You have ' . $quantity . ' of ' . $type . '(s), which costs $' . $price . ' each.</li>
+                <li>The subtotal for ' . $type . ' is ' . $subtotal . '</li>
+            </ul>
+            ';
+        $output .= $string;
+        $total += $subtotal;
+    }
+
+    $output .= '
+        <ul>
+            <li>The grand total is: $' . $total . '</li>
+        </ul>
+        ';
+
+    return $output;
+}

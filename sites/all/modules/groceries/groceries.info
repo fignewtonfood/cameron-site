@@ -1,0 +1,5 @@
+name = Groceries
+description = List out a grocery list using a nested array.
+package = My First Modules
+core = 7.x
+files[] = groceries.module
