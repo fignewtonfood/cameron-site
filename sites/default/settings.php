@@ -213,12 +213,12 @@
  * @endcode
  */
 $databases = array (
-  'default' => 
+  'default' =>
   array (
-    'default' => 
+    'default' =>
     array (
       'database' => 'cameron_database',
-      'username' => 'database_admin',
+      'username' => 'admin',
       'password' => 'treehouse',
       'host' => 'localhost',
       'port' => '',
