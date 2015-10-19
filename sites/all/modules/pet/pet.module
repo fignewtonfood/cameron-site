@@ -1,0 +1,22 @@
+<?php
+
+function pet_menu()
+{
+    $items = array();
+    $items['pet'] = array(
+        'title' => "Mr Jinx",
+        'page callback' => 'pet_display',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+}
+
+function pet_display()
+{
+    return '
+        <img src="http://www.polyvore.com/cgi/img-thing?.out=jpg&size=l&tid=11104175">
+        <br>
+        <a href="https://en.wikipedia.org/wiki/Cat">Cats</a>
+    ';
+}
