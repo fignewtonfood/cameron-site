@@ -1,0 +1,47 @@
+<?php
+
+
+function cards_menu()
+{
+    $my_friends = array('Moe', 'Bob', 'Billy');
+    $items = array();
+    foreach ($my_friends as $friend) {
+        $callback = strtolower($friend) . 's_display';
+        $items[$friend] = array(
+            'title' => $friend."'s Special Card",
+            'page callback' => $callback,
+            'access callback' => TRUE,
+            'type' => MENU_NORMAL_ITEM,
+        );
+    }
+    return $items;
+}
+
+$a = bobs
+
+function bobs_display()
+{
+    return '
+        <ul>
+            <li>Hello Bob!</li>
+        </ul>
+    ';
+}
+
+function moes_display()
+{
+    return '
+        <ul>
+            <li>Hello Moe!</li>
+        </ul>
+    ';
+}
+
+function billys_display()
+{
+    return '
+        <ul>
+            <li>Hello Billy!</li>
+        </ul>
+    ';
+}
