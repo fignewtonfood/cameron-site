@@ -17,8 +17,6 @@ function cards_menu()
     return $items;
 }
 
-$a = bobs
-
 function bobs_display()
 {
     return '
