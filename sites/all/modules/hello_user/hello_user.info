@@ -1,0 +1,5 @@
+name = Hello user
+description = Redirects admin to success page when new account is created
+package = My First Modules
+core = 7.x
+files[] = hello_user.module
