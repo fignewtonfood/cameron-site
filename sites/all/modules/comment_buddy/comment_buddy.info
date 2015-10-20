@@ -1,0 +1,5 @@
+name = Comment buddy
+description = Creates confirmation messages when users create, edit, or delete comments
+package = My First Modules
+core = 7.x
+files[] = comment_buddy.module
