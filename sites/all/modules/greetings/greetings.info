@@ -1,0 +1,5 @@
+name = Greetings #2
+description = Alternative greetings given for different user roles.
+package = My First Modules
+core = 7.x
+files[] = greetings.module

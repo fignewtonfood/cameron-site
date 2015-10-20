@@ -1,0 +1,54 @@
+<?php
+
+function greetings_menu() {
+    $items = array();
+    $items['hello_friend'] = array(
+        'title' => "Hello Friend!",
+        'page callback' => 'say_hello',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['goodbye_admin'] = array(
+        'title' => 'Goodbye Friend!',
+        'page callback' => 'say_goodbye_admin',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['goodbye_user'] = array(
+        'title' => 'Goodbye Friend!',
+        'page callback' => 'say_goodbye_user',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function say_hello() {
+    global $user;
+    if (in_array('administrator', $user->roles)) {
+        return '<p>Welcome to the Admin view!</p>';
+    } else {
+        return '<p>Nice to see you!</p>';
+    }
+}
+
+function say_goodbye_admin() {
+    return '<p>Bye bye bye!</p>';
+}
+
+function say_goodbye_user() {
+    return '<p>Come back soon!</p>';
+}
+
+function greetings_user_login(){
+    $_GET['destination'] = 'hello_friend';
+}
+
+function greetings_user_logout(){
+    global $user;
+    if (in_array('administrator', $user->roles)) {
+        $_GET['destination'] = 'goodbye_admin';
+    } else {
+        $_GET['destination'] = 'goodbye_user';
+    }
+}
