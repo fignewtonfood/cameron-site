@@ -1,0 +1,83 @@
+<?php
+
+function queen_attack_menu(){
+  $items = array();
+  $items['queen_attack'] = array (
+    'title' => 'Queen Attack',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('queen_attack_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['queen_attack_success_page'] = array (
+    'title' => 'Results',
+    'page callback' => 'queen_attack_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+return $items;
+}
+
+function queen_attack_form() {
+  $form['queen_position'] = array(
+    '#title' => 'Queen Position',
+    '#type' => 'textfield',
+    '#description' => t("Please enter the queen's coordinates. (ex: D4)"),
+  );
+
+  $form['target_position'] = array(
+    '#title' => 'Target Position',
+    '#type' => 'textfield',
+    '#description' => t("Please enter the target's coordinates. (ex: D4)"),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Go',
+  );
+
+return $form;
+
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+  //for normal chess coordinate convention (eg d4 to a5 etc)
+  $reference = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H');
+
+  //grabs values from form for queen and target
+  $queen_coordinates = $form_state['values']['queen_position'];
+  $target_coordinates = $form_state['values']['target_position'];
+
+  //initialize and explode both input arrays
+  $queen_array = array();
+  $target_array = array();
+  $queen_array = str_split($queen_coordinates);
+  $target_array = str_split($target_coordinates);
+  $queen_array[0] = strtoupper($queen_array[0]);
+  $target_array[0] = strtoupper($target_array[0]);
+  //converts letter x-axis coordinates to numbers
+  $queen_array[0] = (array_search($queen_array[0], $reference))+1;
+  $target_array[0] = (array_search($target_array[0], $reference))+1;
+
+  //checks vertical position
+  if ($queen_array[0] == $target_array[0]) {
+    $check_output = "Can attack vertically!";
+  //checks horizontal position
+  } elseif ($queen_array[1] == $target_array[1]) {
+    $check_output = "Can attack horizontally!";
+  //checks if diagonal
+} elseif (abs($queen_array[0]-$target_array[0]) == abs($queen_array[1]-$target_array[1])) {
+    $check_output = "Can attack diagonally!";
+  } else {
+    $check_output = "No attacks!";
+  }
+//sets the local session value to the output from all the business logic
+  $_SESSION['queen_attack_output'] = $check_output;
+  $form_state['redirect'] = 'queen_attack_success_page';
+}
+
+function queen_attack_success() {
+  return '<p>'.$_SESSION['queen_attack_output'].'</p>';
+  }
