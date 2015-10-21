@@ -1,0 +1,88 @@
+<?php
+
+function clock_angle_menu(){
+  $items = array();
+  $items['clock_angle'] = array (
+    'title' => 'Clock Angle',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('clock_angle_form'),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['clock_angle_success_page'] = array (
+    'title' => 'Results',
+    'page callback' => 'clock_angle_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+return $items;
+}
+
+function clock_angle_form() {
+  $form['hour'] = array(
+    '#title' => 'Hour of day',
+    '#type' => 'textfield',
+    '#description' => t("Please enter the hour (ex: 11)"),
+  );
+
+  $form['minute'] = array(
+    '#title' => 'Minute of hour',
+    '#type' => 'textfield',
+    '#description' => t("Please enter the minute (ex: 55)"),
+  );
+
+  $form['second'] = array(
+    '#title' => 'Second of minute',
+    '#type' => 'textfield',
+    '#description' => t("Please enter the second (ex: 55)"),
+  );
+
+  $form['precision'] = array(
+    '#title' => 'Decimal places',
+    '#type' => 'textfield',
+    '#description' => t("How many decimal places? (ex: 55)"),
+    '#value' => '2',
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Go',
+  );
+
+return $form;
+
+}
+
+function clock_angle_form_submit($form, &$form_state) {
+  //grabs values from form for queen and target
+  $hour_input = $form_state['values']['hour'];
+  $minute_input = $form_state['values']['minute'];
+  $second_input = $form_state['values']['second'];
+  $decimal_places = $form_state['values']['precision'];
+
+  //initialize and explode both input arrays
+  $seconds_in_an_hour = 3600;
+  $seconds_in_a_minute = 60;
+  $degs_in_a_second = 5.5/60;
+  
+  $total_seconds = ($hour_input * $seconds_in_an_hour)+($minute_input * $seconds_in_a_minute)+$second_input;
+  $total_angle = $total_seconds * $degs_in_a_second;
+  while ($total_angle >= 360) {
+    $total_angle -= 360;
+  }
+  if ($total_angle >= 180) {
+    $total_angle = abs($total_angle-360);
+  }
+
+  $formatted_angle = round($total_angle, $decimal_places);
+
+//sets the local session value to the output from all the business logic
+  $_SESSION['clock_angle_output'] = $formatted_angle;
+  $form_state['redirect'] = 'clock_angle_success_page';
+}
+
+function clock_angle_success() {
+  return '<h3> The angle is: '.$_SESSION['clock_angle_output'].' degrees</h3>';
+  }
