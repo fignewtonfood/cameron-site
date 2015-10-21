@@ -1,0 +1,5 @@
+name = Title Casr
+description = Title case user input
+package = My First Modules
+core = 7.x
+files[] = title_case.module
