@@ -1,0 +1,5 @@
+name = Ping Pongr
+description = A Magnificently useless module
+package = My First Modules
+core = 7.x
+files[] = ping_pong.module
