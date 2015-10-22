@@ -1,0 +1,5 @@
+name = Queen Attackr2
+description = Checks to see if a queen can attack a piece
+package = My First Modules
+core = 7.x
+files[] = queen_attack2.module
