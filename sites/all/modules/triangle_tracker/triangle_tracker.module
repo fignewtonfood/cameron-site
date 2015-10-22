@@ -1,0 +1,79 @@
+<?php
+function triangle_tracker_menu(){
+    $items = array();
+    $items['triangle_tracker'] = array (
+        'title' => 'Triangle Tracker',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('triangle_tracker_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['triangle_tracker_success_page'] = array (
+        'title' => 'Results',
+        'page callback' => 'triangle_tracker_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function triangle_tracker_form() {
+    $form['side_one'] = array(
+        '#title' => 'Side One',
+        '#type' => 'textfield',
+        '#description' => t("Please enter a length for one side of a triangle"),
+        '#element_validate' => array('element_validate_integer_positive'),
+        '#required' => TRUE,
+    );
+    $form['side_two'] = array(
+        '#title' => 'Side Two',
+        '#type' => 'textfield',
+        '#description' => t("Please enter a length for another side of a triangle"),
+        '#element_validate' => array('element_validate_integer_positive'),
+        '#required' => TRUE,
+    );
+    $form['side_three'] = array(
+        '#title' => 'Side Three',
+        '#type' => 'textfield',
+        '#description' => t("Please enter a length for the last side of a triangle"),
+        '#element_validate' => array('element_validate_integer_positive'),
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Go',
+    );
+    return $form;
+}
+
+function triangle_tracker_form_validate($form, &$form_state) {
+    if (($form_state['values']['side_one'] + $form_state['values']['side_two'] <= $form_state['values']['side_three']) ||
+    ($form_state['values']['side_one'] + $form_state['values']['side_three'] <= $form_state['values']['side_two']) ||
+    ($form_state['values']['side_three'] + $form_state['values']['side_two'] <= $form_state['values']['side_one'])) {
+        form_set_error('side_one', 'Not a valid triangle!');
+    }
+}
+
+function triangle_tracker_form_submit($form, &$form_state) {
+    $side_one_value = $form_state['values']['side_one'];
+    $side_two_value = $form_state['values']['side_two'];
+    $side_three_value = $form_state['values']['side_three'];
+    if (($side_one_value == $side_one_value) &&
+    ($side_one_value == $side_three_value)) {
+        $check_output = "Is equilateral";
+    } elseif (($side_one_value == $side_two_value) ||
+    ($side_one_value == $side_three_value) ||
+    ($side_two_value == $side_three_value)) {
+        $check_output = "Is isosceles";
+    } else {
+        $check_output = "Is scalene";
+    }
+    //sets the local session value to the output from all the business logic
+    $_SESSION['triangle_tracker_output'] = $check_output;
+    $form_state['redirect'] = 'triangle_tracker_success_page';
+}
+
+function triangle_tracker_success() {
+    return '<p>'.$_SESSION['triangle_tracker_output'].'</p>';
+}

@@ -1,0 +1,5 @@
+name = Triangle Tracker
+description = Checks to see if a triangle is valid and what kind of triangle it is
+package = My First Modules
+core = 7.x
+files[] = triangle_tracker.module
